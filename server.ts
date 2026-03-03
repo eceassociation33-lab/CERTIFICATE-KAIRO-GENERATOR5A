@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
-  
+
   console.log(`Starting server in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 
   // MongoDB Connection
@@ -328,6 +328,9 @@ async function startServer() {
           user: senderEmail,
           pass: senderPassword,
         },
+        // Force IPv4 to prevent ENETUNREACH on IPv6-only Render clusters
+        // @ts-ignore
+        family: 4
       });
 
       // Send mail
